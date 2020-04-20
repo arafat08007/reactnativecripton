@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "jsx": "react-native",
+    "module": "commonjs",
+    "noEmit": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+
+    "skipLibCheck": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    },
+
+  },
+  "exclude": ["node_modules"]
+}
