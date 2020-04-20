@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createFactory } from 'react';
 import { View, StyleSheet, Picker } from 'react-native';
-import { Text, Input, Button } from 'react-native-elements';
+import { Text, Input, Button ,Icon,ButtonGroup} from 'react-native-elements';
 import { useForm, Controller } from 'react-hook-form';
 //@ts-ignore
 import Autocomplete from 'react-native-autocomplete-input';
@@ -10,6 +10,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '~/redux/store';
 import Modal from '~/components/GeneralStoreResult';
 import { appColors } from '~/theme';
+//storge
+import AsyncStorage from '@react-native-community/async-storage';
 
 interface ProductGroup {
   TypeCode: string;
@@ -24,7 +26,13 @@ interface Product {
   StockQty: string;
 }
 
+
+
 export default () => {
+
+  
+
+
   const user = useSelector((state: RootState) => state.auth?.user);
   const [categories, setCategories] = useState<ProductGroup[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -36,6 +44,9 @@ export default () => {
   const [jus, setJus] = useState('');
 
   const [res, setRes] = useState('');
+
+  const[cont,setCount]=useState('1')
+
   useEffect(() => {
     (async () => {
       const { data } = await api.get('/InvProductGroupList');
@@ -50,6 +61,15 @@ export default () => {
     setProducts(data);
   };
   const [selectedValue, setSelectedValue] = useState("myself");
+
+//btn group
+
+const showSavedItemModal= ()=>{
+  return (
+    <Text>This is ok</Text>
+  )
+}
+
   return (<ScrollView style={styles.root}>
     {res !== '' && res !== 'pending' ? <Modal close={() => setRes('')} text={res} /> : null}
     <Text style={styles.heading}>ICT Service Requisition</Text>
@@ -104,6 +124,73 @@ export default () => {
     <Text style={styles.labeltext}>Justification:</Text>
     <Input placeholder="Justification" onChangeText={text => setJus(text)} />
     <Text style={styles.gap}></Text>
+
+<View style={styles.saveandview} >
+<Button
+    onPress={async () => {
+      try {
+        var i:number = 1;
+        setCount(''+i+1);
+        await AsyncStorage.setItem('savedContent', [jus, product?.Id, qty].join('_==_'),);
+        console.info( await AsyncStorage.getItem('savedContent') || 'none');
+      } catch (error) {
+        // Error retrieving data
+        console.error(error.message);
+      }
+    }}
+   style={styles.btnsave_view}
+    
+    accessibilityLabel="Save and add more"
+    type="clear"
+    icon={
+      <Icon
+        color={appColors.primary}
+        raised={true}
+        name="save"
+        size={26}
+      />
+    }
+    
+  />
+
+<Button
+   // onPress={() => setShowApproveModal(true)}
+
+   onPress={async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys();
+     const result= await AsyncStorage.multiGet(keys || 'none');
+
+      
+    showSavedItemModal();
+
+    } catch (error) {
+      // Error retrieving data
+      console.error(error.message);
+    }
+  }}
+   style={styles.btnsave_view}
+
+   accessibilityLabel="View the saved items"
+    type="clear"
+    icon={
+      <Icon
+        color={appColors.primary}
+        raised={true}
+        
+        name="explore"
+        size={26}
+      />
+    }
+  />
+</View>
+
+<View style={styles.saveandviewText} >
+<Text style={styles.btn_icon_label}>Press save button to Save and add more items, </Text>
+<Text style={styles.btn_icon_label}>Press explore button to view saved items</Text>
+
+
+</View>
     <Button style={{marginEnd:24,marginStart:24,padding:5}} 
     disabled={!jus || !product || !qty} loading={res === 'pending'} title="Send the requisition" 
     onPress={async () => {
@@ -146,6 +233,41 @@ const styles = StyleSheet.create({
     marginBottom:5,
     fontSize:12,
     fontWeight:'600'
+  },
+
+
+//--------------save and view button---------------------------
+
+
+
+  saveandview:{
+    flex:1,
+    justifyContent:'center',
+    
+    padding:10,
+  
+    flexDirection:'row',
+
+  },
+  saveandviewText:{
+    flex:1,
+    justifyContent:'center',
+    flexDirection:'column',
+    marginBottom:5,
+  },
+  btnsave_view:{
+    padding:3,
+    alignContent:'center',
+   
+    margin:2,
+    fontSize:10,
+  },
+  btn_icon_label:{
+    padding:2,
+    alignContent:'center',
+   
+    textAlign:'center',
+    fontSize:10,
   }
 
 })

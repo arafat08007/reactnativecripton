@@ -15,18 +15,21 @@ export default () => {
   
   tabBarOptions={{
     
-    activeTintColor: appColors.primary,
+    activeTintColor: appColors.red,
     showIcon: true,
-    inactiveTintColor:appColors.grey3
+    inactiveTintColor:appColors.lightBlue
   }}
   >
     <Tabs.Screen
-      options={{ title: "ICT Store", tabBarLabel:"ICT Store",
+  
+      options={{ title: "ICT Store", tabBarLabel:"ICT Store", 
       tabBarIcon: ({color}) => (
         <Icon
             name="mouse"
             color={color}
-            size={18}
+            size={16}
+            raised={true}
+            
         />
     )
     }}
@@ -41,7 +44,8 @@ export default () => {
             name="phonelink"
            
             color={color}
-            size={18}
+            size={16}
+            raised={true}
         />
     )
     }}
@@ -56,7 +60,8 @@ export default () => {
         <Icon
             name="note"
             color={color}
-            size={18}
+            size={16}
+            raised={true}
         />
     )
     }}
@@ -70,7 +75,9 @@ export default () => {
         <Icon
             name="blur-on"
             color={color}
-            size={18}
+            size={16}
+            raised={true}
+           
         />
     )
     }}
