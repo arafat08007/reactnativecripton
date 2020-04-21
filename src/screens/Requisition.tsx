@@ -35,7 +35,7 @@ export default ({ route, navigation }: Props) => {
     dispatch(getRequisition(BaseInfo));
   }, []);
 
-  const [forwardList, setForwardList] = useState<typeof data>([
+  const [forwardList, setForwardList] = useState([
     { Value: 'to', Text: 'To' },
   ]);
   useEffect(() => {
