@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createFactory } from 'react';
 import { View, StyleSheet, Picker } from 'react-native';
 import { Text, Input, Button } from 'react-native-elements';
-import { useForm, Controller } from 'react-hook-form';
+// import { useForm, Controller } from 'react-hook-form';
 //@ts-ignore
 import Autocomplete from 'react-native-autocomplete-input';
 import api from '~/api';
@@ -32,7 +32,7 @@ export default () => {
   const [category, setCategory] = useState<ProductGroup | undefined>();
   const [products, setProducts] = useState<Product[]>([]);
   const [categoryQuery, setCategoryQuery] = useState('');
-  const [productQuery, setProductQuery] = useState('');
+  // const [productQuery, setProductQuery] = useState('');
 
   const [selectedValue, setSelectedValue] = useState("Department");
 
@@ -42,9 +42,9 @@ export default () => {
     qty: '1',
     jus: '',
   }]);
-  const [product, setProduct] = useState<Product | undefined>();
-  const [qty, setQty] = useState('1');
-  const [jus, setJus] = useState('');
+  // const [product, setProduct] = useState<Product | undefined>();
+  // const [qty, setQty] = useState('1');
+  // const [jus, setJus] = useState('');
 
 
   const [res, setRes] = useState('');
