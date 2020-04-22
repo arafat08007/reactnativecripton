@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createFactory } from 'react';
 import { View, StyleSheet, Picker } from 'react-native';
-import { Text, Input, Button } from 'react-native-elements';
+import { Text, Input, Button,Icon } from 'react-native-elements';
 // import { useForm, Controller } from 'react-hook-form';
 //@ts-ignore
 import Autocomplete from 'react-native-autocomplete-input';
@@ -88,7 +88,8 @@ export default () => {
       />
     </View>
     {lst.map(({ query, product, qty, jus }, i) => (
-      <React.Fragment key={i}>
+      <React.Fragment key={i} >
+        <View style={styles.productArea}>
         <Text style={styles.labeltext}>Product #{i + 1} (input first two letters of your item):</Text>
         <View style={{ minHeight: 60 }}>
           <Autocomplete
@@ -133,8 +134,11 @@ export default () => {
           });
           setLst(nextLst);
         }} />
+        
+        </View>
         <Text style={styles.gap}></Text>
       </React.Fragment>
+      
     ))}
     {/* <View style={{ minHeight: 60 }}>
       <Autocomplete
@@ -160,8 +164,10 @@ export default () => {
     <Text style={styles.labeltext}>Justification:</Text>
     <Input placeholder="Justification" onChangeText={text => setJus(text)} />
     <Text style={styles.gap}></Text> */}
-    <Button style={{ marginEnd: 24, marginStart: 24, padding: 5 }}
-      title="+ Add another product"
+    <View style={styles.ActionBtnarea}>
+    <Button style={{ marginEnd: 10, marginStart: 10, padding: 5, marginBottom:5,backgroundColor:'#008080', fontsize:10, }}
+      
+      title="+Add another product"
       onPress={async () => {
         setLst([...lst, {
           query: '',
@@ -171,7 +177,7 @@ export default () => {
         }]);
       }}
     />
-    <Button style={{ marginEnd: 24, marginStart: 24, padding: 5 }}
+    <Button style={{ marginEnd: 10, marginStart: 10, padding: 5 }}
       disabled={!lst[0].jus || !lst[0].product || !lst[0].qty}
       loading={res === 'pending'}
       title="Send the requisition"
@@ -195,6 +201,10 @@ export default () => {
 
       }}
     />
+
+
+</View>
+
   </ScrollView>)
 }
 
@@ -210,12 +220,63 @@ const styles = StyleSheet.create({
     color: appColors.primary,
   },
   gap: {
-    margin: '5%',
+    margin: '2%',
   },
   labeltext: {
     marginBottom: 5,
     fontSize: 12,
     fontWeight: '600'
-  }
+  },
+  ActionBtnarea:{
+    padding:10,
+  
+    flex:1,
+    flexDirection:'row',
+    justifyContent:'center',
+  },
+
+  floatAddNewbtn:{
+    borderWidth:1,
+    borderColor:'rgba(0,0,0,0.2)',
+    alignItems:'center',
+    justifyContent:'center',
+    width:70,
+    position: 'absolute',                                          
+    bottom: 10,                                                    
+    left: 10,
+    height:70,
+    backgroundColor:'#fff',
+    borderRadius:100,
+  },
+  floatSendbtn:{
+    borderWidth:1,
+       borderColor:'rgba(0,0,0,0.2)',
+       alignItems:'center',
+       justifyContent:'center',
+       width:70,
+       position: 'absolute',                                          
+       bottom: 10,                                                    
+       right: 10,
+       height:70,
+       backgroundColor:'#fff',
+       borderRadius:100,
+
+  },
+  productArea:{
+    padding:7,
+    backgroundColor:'#F5F5F5',
+    borderRadius:3,
+    borderColor:'rgba(0,0,0,0.2)',
+
+    shadowColor: "#306ae5",
+    shadowOffset: {
+    width: 0,
+    height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+    }
 
 })
