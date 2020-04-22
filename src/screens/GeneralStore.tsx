@@ -51,7 +51,7 @@ export default () => {
   useEffect(() => {
     (async () => {
       const { data } = await api.get('/InvProductGroupList');
-      const categories = data.filter((x: any) => x.TypeCode === '101') as ProductGroup[];
+      const categories = data.filter((x: any) => x.TypeCode === '101' && x.UnitName !== "Ict") as ProductGroup[];
       setCategories(categories);
     })()
   }, [])
@@ -72,7 +72,7 @@ export default () => {
       <Picker.Item label="Personal" key="Personal" value="Personal" />
     </Picker>
     <Text style={styles.labeltext} >Product Category (input first two letter of the category):</Text>
-    <View style={{ minHeight: 60 }}>
+    <View style={{ minHeight: 60, }}>
       <Autocomplete
         data={categoryQuery && categoryQuery !== category?.GroupName ? categories.filter(x => x.GroupName.toLocaleLowerCase().startsWith(categoryQuery.toLocaleLowerCase())) : []}
         defaultValue={categoryQuery}
@@ -87,9 +87,15 @@ export default () => {
         keyExtractor={(item: ProductGroup) => item.GroupCode}
       />
     </View>
-    {lst.map(({ query, product, qty, jus }, i) => (
+    <Text style={{textAlign:'center', fontSize:10, color:appColors.lightBlue, padding:5}}>Now you can add multiple product(s) within a requisition.</Text>
+    {
+    lst.map(({ query, product, qty, jus }, i) => 
+    (
       <React.Fragment key={i} >
         <View style={styles.productArea}>
+     <Text style={{fontSize:20, color:'blue'}}>#{i+1}</Text>
+
+
         <Text style={styles.labeltext}>Product #{i + 1} (input first two letters of your item):</Text>
         <View style={{ minHeight: 60 }}>
           <Autocomplete
@@ -139,7 +145,9 @@ export default () => {
         <Text style={styles.gap}></Text>
       </React.Fragment>
       
-    ))}
+    )
+    )
+    }
     {/* <View style={{ minHeight: 60 }}>
       <Autocomplete
         data={productQuery && productQuery !== product?.ProductName ? products.filter(x => x.ProductName.toLocaleLowerCase().startsWith(productQuery.toLocaleLowerCase())) : []}
@@ -165,7 +173,7 @@ export default () => {
     <Input placeholder="Justification" onChangeText={text => setJus(text)} />
     <Text style={styles.gap}></Text> */}
     <View style={styles.ActionBtnarea}>
-    <Button style={{ marginEnd: 10, marginStart: 10, padding: 5, marginBottom:5,backgroundColor:'#008080', fontsize:10, }}
+    <Button style={{ marginEnd: 10, marginStart: 10, padding: 5, marginBottom:5,backgroundColor:'#008080' }}
       
       title="+Add another product"
       onPress={async () => {
@@ -264,7 +272,7 @@ const styles = StyleSheet.create({
   },
   productArea:{
     padding:7,
-    backgroundColor:'#F5F5F5',
+    backgroundColor:'#FFF',
     borderRadius:3,
     borderColor:'rgba(0,0,0,0.2)',
 
