@@ -3,7 +3,7 @@ import { View, Picker, Platform } from 'react-native';
 import { Text, Icon, Button, Input } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '~/redux/store';
-import DatePicker from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-modal-datetime-picker';
 import { appColors } from '~/theme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { getApprovalSummary } from '~/redux/approvals';
@@ -30,22 +30,26 @@ export default React.memo(() => {
     <View style={{ backgroundColor: 'white', padding: 5 }}>
       {showSPicker && (
         <DatePicker
-          value={new Date()}
+          isVisible={true}
+          date={new Date()}
           mode="date"
-          onChange={(_, date) => {
-            setSPicker(Platform.OS === 'ios');
+          onConfirm={(date) => {
+            setSPicker(false);
             setSDate(toString(date) || '');
           }}
+          onCancel={() => setSPicker(false)}
         />
       )}
       {showEPicker && (
         <DatePicker
-          value={new Date()}
+          isVisible={true}
+          date={new Date()}
           mode="date"
-          onChange={(_, date) => {
-            setEPicker(Platform.OS === 'ios');
+          onConfirm={(date) => {
+            setEPicker(false);
             setEDate(toString(date) || '');
           }}
+          onCancel={() => setEPicker(false)}
         />
       )}
       <View style={{ flexDirection: 'row' }}>
